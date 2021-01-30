@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'layout-default',
@@ -7,8 +7,14 @@
 })
 /** default component*/
 export class DefaultComponent {
+
+  sideBarOpen = true;
     /** default ctor */
     constructor() {
 
-    }
+  }
+
+  sideBarToggler() {
+    this.sideBarOpen = !this.sideBarOpen;
+  }
 }

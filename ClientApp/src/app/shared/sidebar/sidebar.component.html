@@ -1,1 +1,30 @@
-﻿<div style="border: 1px solid red">sidebar Component</div>
+<mat-nav-list>
+  <div class="profile-card">
+    <div class="header">
+      <h4>Timur Lumelsky</h4>
+      <h6>tlumelsky@gmail.com</h6>
+    </div>
+    <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Timur Lumelsky">
+  </div>
+
+
+  <mat-divider></mat-divider>
+
+  <h2 matSubheader>Pages</h2>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Dashboard</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/terminals">Terminals</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/config">Configuration</a>
+
+  <h2 matSubheader>Tools</h2>
+
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/">
+    <mat-icon>import_contacts</mat-icon>
+    Contacts
+  </a>
+
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/">
+    <mat-icon>contact_phone</mat-icon>
+    Leeds
+  </a>
+
+</mat-nav-list>

@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'shared-header',
@@ -7,8 +7,14 @@
 })
 /** header component*/
 export class HeaderComponent {
+
+  @Output() toggleMySideBar: EventEmitter<any> = new EventEmitter();
     /** header ctor */
     constructor() {
 
-    }
+  }
+
+  toggleSideBar() {
+    this.toggleMySideBar.emit();
+  }
 }

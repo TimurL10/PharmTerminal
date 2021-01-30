@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
@@ -25,16 +24,6 @@ import { DefaultModule } from './layouts/default.module';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    //RouterModule.forRoot([
-    //  {
-    //    path: '',
-    //    component: DefaultComponent,
-    //    children:
-    //      [{ path: '', component: DashboardComponent }]
-    //  },
-      //{ path: 'counter', component: CounterComponent },
-      //{ path: 'fetch-data', component: FetchDataComponent },
-    //]),
     BrowserAnimationsModule,
     DefaultModule
   ],

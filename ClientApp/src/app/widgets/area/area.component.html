@@ -1,1 +1,18 @@
-﻿<div style="border: 1px solid red">area Component</div>
+<highcharts-chart [Highcharts]="Highcharts"
+                  [options]="chartOptions"
+                  style="width: 100%; height: 400px; display: block;">
+
+</highcharts-chart>
+
+<mat-divider></mat-divider>
+
+<br />
+<mat-form-field class="example-form-field">
+  <mat-label>Net Guid</mat-label>
+  <input matInput type="text" [(ngModel)]="guid">
+  <button mat-button *ngIf="guid" matSuffix mat-icon-button aria-label="Clear" (click)="guid=''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<button mat-button color="primary" (click)="loadChart()">Get Data</button>

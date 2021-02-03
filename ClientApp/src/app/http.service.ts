@@ -25,6 +25,10 @@ export class HttpService {
     return this.http.get<ReportByNet[]>('reportbynet/getreportforstores', { params });      
   }
 
+  GetDataForAreaChart() {
+    return this.http.get<number[]>('reportbynet/GetDateForAreaChart', {});
+  }
+
 
 }
 

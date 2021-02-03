@@ -17,8 +17,8 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 @Component({
-    selector: 'widget-area',
-    templateUrl: './area.component.html',
+  selector: 'widget-area',
+  templateUrl: './area.component.html',
   styleUrls: ['./area.component.scss'],
   providers: [HttpService]
 })
@@ -26,7 +26,8 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 /** area component*/
-export class AreaComponent {
+export class AreaComponent implements OnInit {
+  pointsForchart: any;
   value = 'Clear me';
   guid: string;
   Highcharts = Highcharts;
@@ -52,7 +53,7 @@ export class AreaComponent {
         text: 'Area chart with values'
       },
       xAxis: {
-        categories: ['Apples', 'Oranges', 'Pears']
+        categories: ['Декабрь', 'Январь', 'Февраль']
       },
       credits: {
         enabled: false
@@ -69,12 +70,11 @@ export class AreaComponent {
       }, {
         name: 'Joe',
         data: [3, 4, 4]
-        }, {
-          name: 'Gigi',
+      }, {
+        name: 'Gigi',
           data: [2, -1, -2]
         }]
     };
-
     HC_exporting(Highcharts);
 
     setTimeout(() => {
@@ -82,13 +82,17 @@ export class AreaComponent {
         new Event('resize')
       );
     }, 300);
+    this.logger.debug(this.chartOptions);
+
+    
   }
 
   //@ViewChild(MatSort) sort: MatSort;
 
 
   ngAfterViewChecked() {
-   // this.dataSource.sort = this.sort;
+    // this.dataSource.sort = this.sort;
+   
   }
 
   /** StoreReport ctor */
@@ -117,11 +121,20 @@ export class AreaComponent {
   }
 
   loadChart() {
-    this.logger.debug('hi' + this.guid);
-    
-  }
-}
 
+    this.chartOptions
+
+
+    this.httpService.GetDataForAreaChart()
+      .subscribe((data: any) => {
+        this.chartOptions = data,
+          error => console.error(error)
+      });
+  }   
+  
+}
+  
+    
 
 export interface PeriodicElement {
   name: string;

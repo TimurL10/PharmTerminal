@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace WebApplication5.DAL
         public List<MarketNames> GetEachStoreTimeOutCanceledCount(string a, string b);
         public List<MarketNames> CustomerGetEachStoreCanceledOrdersCount(string a, string b);
         public List<MarketNames> GetEachStoreNoReceiveStatusOrd(string a, string b);
+        public ArrayList GetThreeMonthPoints();
+
 
 
 

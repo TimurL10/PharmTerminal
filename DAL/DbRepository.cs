@@ -10,6 +10,8 @@ using Microsoft.Data.SqlClient;
 //using Dapper;
 using WebApplication5.DAL;
 using WebApplication5.Models;
+using System.IO;
+using System.Collections;
 
 namespace WebApplication5.DAL
 {
@@ -859,6 +861,45 @@ namespace WebApplication5.DAL
             }
             return MarketNames;        
         }
+        public ArrayList GetThreeMonthPoints()
+        {
+            ArrayList listPoints = new ArrayList();
+            string netGuid = "'efb05410-ba92-4a73-a37f-f05f9a499ded'";
+            
+            using (IDbConnection connection = dbConnection)
+            {
+                string sqlCommand = File.ReadAllText(@"C:\Users\t.lumelsky\source\repos\PharmTerminal\getThreeMonths.sql");
+                string spName = "[Monitoring].[ExecQueryShards]"; 
+                SqlCommand command = new SqlCommand(sqlCommand, (SqlConnection)connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = spName;
+                SqlParameter parameter = new SqlParameter();
+                parameter.ParameterName = "@text";
+                parameter.SqlDbType = SqlDbType.NVarChar;
+                parameter.Direction = ParameterDirection.Input;
+                parameter.Value = sqlCommand;
+                command.Parameters.AddWithValue("@text", sqlCommand);
+                connection.Open();
 
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            listPoints.AddRange(new int[] {(Int32)reader[0], (Int32)reader[1], (Int32)reader[2], (Int32)reader[3],
+                                (Int32)reader[4], (Int32)reader[5], (Int32)reader[6], (Int32)reader[7], (Int32)reader[8], (Int32)reader[9],
+                                (Int32)reader[10], (Int32)reader[11] });                          
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                    reader.Close();
+                }
+            }
+            return listPoints;
+        }
     }
 }

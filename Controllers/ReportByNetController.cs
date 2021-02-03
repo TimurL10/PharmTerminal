@@ -120,5 +120,19 @@ namespace WebApplication5.Controllers
             }
             return reportByNets;
         } 
+
+        public Hashtable GetDateForAreaChart()
+        {
+            Hashtable chartOptions = new Hashtable();
+            chartOptions.Add("chart", new Tuple<string,string>("type", "area"));
+            chartOptions.Add("title", new Tuple<string, string>("text", "Данные по аптечной сети"));
+            chartOptions.Add("xAxis", new Tuple<string, string[]>("categories", new string[] { "Декабрь", "Январь", "Февраль" }));
+            chartOptions.Add("credits", new Tuple<string, bool>("enabled", false));
+            chartOptions.Add("exporting", new Tuple<string, bool>("enabled", true));
+            chartOptions.Add("Выкупленные заказы", _dbRepository.GetThreeMonthPoints());                        
+
+            return chartOptions;
+            
+        }
     }
 }

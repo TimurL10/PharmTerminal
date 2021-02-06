@@ -872,6 +872,7 @@ namespace WebApplication5.DAL
                 string spName = "[Monitoring].[ExecQueryShards]"; 
                 SqlCommand command = new SqlCommand(sqlCommand, (SqlConnection)connection);
                 command.CommandType = CommandType.StoredProcedure;
+                command.CommandTimeout = 500;
                 command.CommandText = spName;
                 SqlParameter parameter = new SqlParameter();
                 parameter.ParameterName = "@text";

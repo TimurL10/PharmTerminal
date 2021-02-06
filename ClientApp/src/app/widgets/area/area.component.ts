@@ -45,44 +45,45 @@ export class AreaComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.chartOptions = {
-      chart: {
-        type: 'area'
-      },
-      title: {
-        text: 'Area chart with values'
-      },
-      xAxis: {
-        categories: ['Декабрь', 'Январь', 'Февраль']
-      },
-      credits: {
-        enabled: false
-      },
-      exporting: {
-        enabled: true,
-      },
-      series: [{
-        name: 'John',
-        data: [5, 3, 4]
-      }, {
-        name: 'Jane',
-        data: [2, -2, -2]
-      }, {
-        name: 'Joe',
-        data: [3, 4, 4]
-      }, {
-        name: 'Gigi',
-          data: [2, -1, -2]
-        }]
-    };
-    HC_exporting(Highcharts);
+    this.loadChart();
+    //this.chartOptions = {
+    //  chart: {
+    //    type: 'area'
+    //  },
+    //  title: {
+    //    text: 'Area chart with values'
+    //  },
+    //  xAxis: {
+    //    categories: ['Декабрь', 'Январь', 'Февраль']
+    //  },
+    //  credits: {
+    //    enabled: false
+    //  },
+    //  exporting: {
+    //    enabled: true,
+    //  },
+    //  series: [{
+    //    name: 'John',
+    //    data: [5, 3, 4]
+    //  }, {
+    //    name: 'Jane',
+    //    data: [2, -2, -2]
+    //  }, {
+    //    name: 'Joe',
+    //    data: [3, 4, 4]
+    //  }, {
+    //    name: 'Gigi',
+    //      data: [2, -1, -2]
+    //    }]
+    //};
+    //HC_exporting(Highcharts);
 
-    setTimeout(() => {
-      window.dispatchEvent(
-        new Event('resize')
-      );
-    }, 300);
-    this.logger.debug(this.chartOptions);
+    //setTimeout(() => {
+    //  window.dispatchEvent(
+    //    new Event('resize')
+    //  );
+    //}, 300);
+    //this.logger.debug(this.chartOptions);
 
     
   }
@@ -121,13 +122,10 @@ export class AreaComponent implements OnInit {
   }
 
   loadChart() {
-
-    this.chartOptions
-
-
     this.httpService.GetDataForAreaChart()
       .subscribe((data: any) => {
         this.chartOptions = data,
+          this.logger.debug(this.chartOptions);
           error => console.error(error)
       });
   }   

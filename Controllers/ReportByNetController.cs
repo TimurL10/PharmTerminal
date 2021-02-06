@@ -9,6 +9,7 @@ using WebApplication5.DAL;
 using WebApplication5.Models;
 using System.Collections;
 
+
 namespace WebApplication5.Controllers
 {
     [ApiController]
@@ -28,9 +29,9 @@ namespace WebApplication5.Controllers
         [HttpGet]
         public ReportByNet Get(string start, string end)
         {
-            
-                start = InsertQuotes(ParseDate(start));
-                end = InsertQuotes(ParseDate(end));
+
+            start = InsertQuotes(ParseDate(start));
+            end = InsertQuotes(ParseDate(end));
 
             ReportByNet report = new ReportByNet(
                 _dbRepository.GetStoresCount(start, end),
@@ -48,7 +49,7 @@ namespace WebApplication5.Controllers
         {
             var ParseDate = DateTime.Parse(date.Remove(15));
             ParseDate = new DateTime(ParseDate.Year, ParseDate.Month, ParseDate.Day);
-            var formattedDate = ParseDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);            
+            var formattedDate = ParseDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
             return formattedDate;
         }
 
@@ -67,10 +68,10 @@ namespace WebApplication5.Controllers
         public List<ReportByNet> GetReportForStores(string start, string end)
         {
 
-                //start = "Fri Jan 01 2021 00:00:00 GMT 0300(Москва, стандартное время)";
-                //end = "Fri Jan 08 2021 00:00:00 GMT 0300(Москва, стандартное время)";
-            
-            
+            //start = "Fri Jan 01 2021 00:00:00 GMT 0300(Москва, стандартное время)";
+            //end = "Fri Jan 08 2021 00:00:00 GMT 0300(Москва, стандартное время)";
+
+
             List<ReportByNet> reportByNets = new List<ReportByNet>();
             start = InsertQuotes(ParseDate(start));
             end = InsertQuotes(ParseDate(end));
@@ -109,7 +110,7 @@ namespace WebApplication5.Controllers
                               TimeOutCanceledOrders = subtimeoutcanceledord?.Count ?? 0,
                               CusCanceledOrd = subcuscanceledord?.Count ?? 0,
                               noRecieveOrdStatus = subnoreseivestord?.Count ?? 0
-                          }) ;
+                          });
 
             foreach (var r in result)
             {
@@ -119,20 +120,49 @@ namespace WebApplication5.Controllers
                 Console.WriteLine("This: " + "" + reportByNet.StoreName);
             }
             return reportByNets;
-        } 
+        }
 
         public Hashtable GetDateForAreaChart()
         {
-            Hashtable chartOptions = new Hashtable();
-            chartOptions.Add("chart", new Tuple<string,string>("type", "area"));
-            chartOptions.Add("title", new Tuple<string, string>("text", "Данные по аптечной сети"));
-            chartOptions.Add("xAxis", new Tuple<string, string[]>("categories", new string[] { "Декабрь", "Январь", "Февраль" }));
-            chartOptions.Add("credits", new Tuple<string, bool>("enabled", false));
-            chartOptions.Add("exporting", new Tuple<string, bool>("enabled", true));
-            chartOptions.Add("Выкупленные заказы", _dbRepository.GetThreeMonthPoints());                        
-
-            return chartOptions;
+            Hashtable sendHashList = new Hashtable();
+            //Hashtable chart = new Hashtable()
+            //{
+            //    {"chart",new Dictionary<string,string>(){ { "type","area"} } }
+            //};            
+            //Hashtable title = new Hashtable()
+            //{
+            //    {"title",new Dictionary<string,string>(){ { "text", "Данные по аптечной сети" } } }
+            //};
+            //Hashtable xAxis = new Hashtable()
+            //{
+            //    {"xAxis",new Dictionary<string,string[]>(){ { "text", new string[] { "Декабрь", "Январь", "Февраль" } } } }
+            //};
+            //Hashtable credits = new Hashtable()
+            //{
+            //    {"credits",new Dictionary<string,bool>(){ { "enabled", false} } }
+            //};
+            //Hashtable exporting = new Hashtable()
+            //{
+            //    {"exporting",new Dictionary<string,bool>(){ { "enabled", false} } }
+            //};
+            Hashtable series2 = new Hashtable()
+            {
+                { "data", _dbRepository.GetThreeMonthPoints() }
+            };
             
-        }
+            series2.Add( "name", "выкупленные заказы" );
+
+            sendHashList.Add("chart", new Dictionary<string, string>() { { "type", "area" } });
+            sendHashList.Add("title", new Dictionary<string, string>() { { "text", "Данные по аптечной сети" } });
+            sendHashList.Add("xAxis", new Dictionary<string, string[]>() { { "text", new string[] { "Декабрь", "Январь", "Февраль" } } });
+            sendHashList.Add("credits", new Dictionary<string, bool>() { { "enabled", false } });
+            sendHashList.Add("exporting", new Dictionary<string, bool>() { { "enabled", false } });
+            sendHashList.Add("series", new ArrayList() { series2 });
+
+            return sendHashList;            
+        }        
+        
     }
+    
+    
 }

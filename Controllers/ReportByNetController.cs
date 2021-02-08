@@ -20,6 +20,7 @@ namespace WebApplication5.Controllers
         public ReportByNetController(IDbRepository dbRepository)
         {
             _dbRepository = dbRepository;
+
         }
         public IActionResult Index()
         {
@@ -122,46 +123,45 @@ namespace WebApplication5.Controllers
             return reportByNets;
         }
 
-        public Hashtable GetDateForAreaChart()
+        public async Task<Hashtable> GetDataForAreaChart()
         {
-            Hashtable sendHashList = new Hashtable();
-            //Hashtable chart = new Hashtable()
-            //{
-            //    {"chart",new Dictionary<string,string>(){ { "type","area"} } }
-            //};            
-            //Hashtable title = new Hashtable()
-            //{
-            //    {"title",new Dictionary<string,string>(){ { "text", "Данные по аптечной сети" } } }
-            //};
-            //Hashtable xAxis = new Hashtable()
-            //{
-            //    {"xAxis",new Dictionary<string,string[]>(){ { "text", new string[] { "Декабрь", "Январь", "Февраль" } } } }
-            //};
-            //Hashtable credits = new Hashtable()
-            //{
-            //    {"credits",new Dictionary<string,bool>(){ { "enabled", false} } }
-            //};
-            //Hashtable exporting = new Hashtable()
-            //{
-            //    {"exporting",new Dictionary<string,bool>(){ { "enabled", false} } }
-            //};
-            Hashtable series2 = new Hashtable()
-            {
-                { "data", _dbRepository.GetThreeMonthPoints() }
-            };
+            ArrayList nameFrontsList = new ArrayList();
+            NameFront nameFront = new NameFront();
+            NameFront nameFront1 = new NameFront();
             
-            series2.Add( "name", "выкупленные заказы" );
+            
+
+            
+            
+
+
+
+            var arraySold = await Task.Run(() => _dbRepository.GetThreeMonthSoldOrd());
+            var arrayCanceled = await Task.Run(() => _dbRepository.GetThreeMonthCanceled());
+            Hashtable sendHashList = new Hashtable();
+            nameFront.Name = "Выкупленные заказы";
+            nameFront.Data = arraySold;
+            nameFront1.Name = "Отмененные заказы";
+            nameFront1.Data = arrayCanceled;                
+            nameFrontsList.Add(nameFront);
+            nameFrontsList.Add(nameFront1);
+
 
             sendHashList.Add("chart", new Dictionary<string, string>() { { "type", "area" } });
             sendHashList.Add("title", new Dictionary<string, string>() { { "text", "Данные по аптечной сети" } });
-            sendHashList.Add("xAxis", new Dictionary<string, string[]>() { { "text", new string[] { "Декабрь", "Январь", "Февраль" } } });
+            sendHashList.Add("xAxis", new Dictionary<string, string[]>() { { "categories", new string[] { "1н", "2н", "3н","4н","5н","6н","7н","8н","9н","10н","11н", "12н" } } });
             sendHashList.Add("credits", new Dictionary<string, bool>() { { "enabled", false } });
             sendHashList.Add("exporting", new Dictionary<string, bool>() { { "enabled", false } });
-            sendHashList.Add("series", new ArrayList() { series2 });
+            sendHashList.Add("series", nameFrontsList);
 
-            return sendHashList;            
+            return sendHashList;    
         }        
         
+    }
+    public struct NameFront
+    {
+        public string Name { get; set; }
+        public ArrayList Data { get; set; }
     }
     
     

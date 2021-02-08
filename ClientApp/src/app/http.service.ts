@@ -26,7 +26,7 @@ export class HttpService {
   }
 
   GetDataForAreaChart() {
-    return this.http.get<number[]>('reportbynet/GetDateForAreaChart', {});
+    return this.http.get<any>('reportbynet/GetDataForAreaChart', {});
   }
 
 

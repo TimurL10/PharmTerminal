@@ -26,7 +26,9 @@ namespace WebApplication5.DAL
         public List<MarketNames> GetEachStoreTimeOutCanceledCount(string a, string b);
         public List<MarketNames> CustomerGetEachStoreCanceledOrdersCount(string a, string b);
         public List<MarketNames> GetEachStoreNoReceiveStatusOrd(string a, string b);
-        public ArrayList GetThreeMonthPoints();
+        public ArrayList GetThreeMonthSoldOrd();
+        public ArrayList GetThreeMonthCanceled();
+
 
 
 

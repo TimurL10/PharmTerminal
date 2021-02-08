@@ -32,6 +32,7 @@ export class AreaComponent implements OnInit {
   guid: string;
   Highcharts = Highcharts;
   chartOptions: {} = [];
+  chartOptionsT: {} = [];
   report: ReportByNet[];
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['storeName', 'ordersCount', 'soldOrders',
@@ -45,55 +46,45 @@ export class AreaComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.loadChart();
-    //this.chartOptions = {
-    //  chart: {
-    //    type: 'area'
-    //  },
-    //  title: {
-    //    text: 'Area chart with values'
-    //  },
-    //  xAxis: {
-    //    categories: ['Декабрь', 'Январь', 'Февраль']
-    //  },
-    //  credits: {
-    //    enabled: false
-    //  },
-    //  exporting: {
-    //    enabled: true,
-    //  },
-    //  series: [{
-    //    name: 'John',
-    //    data: [5, 3, 4]
-    //  }, {
-    //    name: 'Jane',
-    //    data: [2, -2, -2]
-    //  }, {
-    //    name: 'Joe',
-    //    data: [3, 4, 4]
-    //  }, {
-    //    name: 'Gigi',
-    //      data: [2, -1, -2]
-    //    }]
-    //};
-    //HC_exporting(Highcharts);
+    this.loadChart();      
 
-    //setTimeout(() => {
-    //  window.dispatchEvent(
-    //    new Event('resize')
-    //  );
-    //}, 300);
-    //this.logger.debug(this.chartOptions);
-
+    this.chartOptions = {
+      "credits": {
+        "enabled": false
+      },
+      "title": {
+        "text": ""
+      },
+      "exporting": {
+        "enabled": false
+      },
+      
+      "xAxis": {
+        "categories": [
+        ]
+      },
+      "chart": {
+        "type": "area"
+      }
+    }
     
+    HC_exporting(Highcharts);
+
+    setTimeout(() => {
+      window.dispatchEvent(
+        new Event('resize')
+      );
+    }, 300);
+    this.logger.debug(this.chartOptions); 
+
   }
+       
+ 
 
   //@ViewChild(MatSort) sort: MatSort;
 
 
-  ngAfterViewChecked() {
-    // this.dataSource.sort = this.sort;
-   
+  ngAfterViewChecked() {  
   }
 
   /** StoreReport ctor */
@@ -121,15 +112,21 @@ export class AreaComponent implements OnInit {
       });
   }
 
-  loadChart() {
+  loadChart() {   
     this.httpService.GetDataForAreaChart()
       .subscribe((data: any) => {
-        this.chartOptions = data,
-          this.logger.debug(this.chartOptions);
+        this.chartOptions = data;
+        this.logger.debug(this.chartOptions);  
           error => console.error(error)
-      });
-  }   
-  
+        });  
+  }
+
+  tempMethod() {
+    this.chartOptions = this.chartOptionsT;
+    this.logger.debug(this.chartOptions);  
+
+  }
+
 }
   
     
@@ -142,3 +139,40 @@ export interface PeriodicElement {
   symbol2: string;
 
 }
+
+//xAxis: {
+//  categories: ['Декабрь', 'Январь', 'Февраль']
+//},
+//chart: {
+//  type: 'area'
+//},
+//title: {
+//  text: 'Area chart with values'
+//},
+
+//credits: {
+//  enabled: false
+//},
+//exporting: {
+//  enabled: true,
+//      },
+//series: [{
+//  data: [5, 3, 4],
+//  name: 'John'
+//}, {
+//  name: 'Jane',
+//  data: [2, -2, -2]
+//}, {
+//  name: 'Joe',
+//  data: [3, 4, 4]
+//}, {
+//  name: 'Gigi',
+//  data: [2, -1, -2]
+//}]
+
+//this.httpService.GetDataForAreaChart()
+//  .subscribe((data: any) => {
+//    this.chartOptions = data,
+//      //this.logger.debug(this.chartOptions);
+//      error => console.error(error)
+//  });

@@ -17,6 +17,9 @@ import { FormsModule } from '@angular/forms';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { TerminalsComponent } from '../terminals/terminals.component';
+import { MatTableModule } from '@angular/material/table';
+
 
 
 
@@ -27,6 +30,7 @@ import { BrowserModule } from '@angular/platform-browser';
     HeaderComponent,
     SidebarComponent,
     AreaComponent,
+    TerminalsComponent
   ],
   imports: [
     MatDividerModule,
@@ -46,14 +50,16 @@ import { BrowserModule } from '@angular/platform-browser';
     FormsModule,
     LoggerModule.forRoot({ serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR }),
     CommonModule,
-    BrowserModule
+    BrowserModule,
+    MatTableModule
 
   ],
   exports: [
     FooterComponent,
     HeaderComponent,
     SidebarComponent,
-    AreaComponent,   
+    AreaComponent,
+    TerminalsComponent
   ],
   providers: [
     

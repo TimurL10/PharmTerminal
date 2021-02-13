@@ -6,8 +6,6 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-//using Dapper;
 using WebApplication5.DAL;
 using WebApplication5.Models;
 using System.IO;

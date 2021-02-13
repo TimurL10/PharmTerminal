@@ -29,6 +29,10 @@ export class HttpService {
     return this.http.get<any>('reportbynet/GetDataForAreaChart', {});
   }
 
+  GetTerminals() {
+    return this.http.get<any>('terminals/Index');
+  }
+
 
 }
 

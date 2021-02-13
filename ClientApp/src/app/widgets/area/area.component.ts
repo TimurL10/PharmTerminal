@@ -46,7 +46,7 @@ export class AreaComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.loadChart();      
+    //this.loadChart();      
 
     this.chartOptions = {
       "credits": {
@@ -172,40 +172,3 @@ export interface PeriodicElement {
   symbol2: string;
 
 }
-
-//xAxis: {
-//  categories: ['Декабрь', 'Январь', 'Февраль']
-//},
-//chart: {
-//  type: 'area'
-//},
-//title: {
-//  text: 'Area chart with values'
-//},
-
-//credits: {
-//  enabled: false
-//},
-//exporting: {
-//  enabled: true,
-//      },
-//series: [{
-//  data: [5, 3, 4],
-//  name: 'John'
-//}, {
-//  name: 'Jane',
-//  data: [2, -2, -2]
-//}, {
-//  name: 'Joe',
-//  data: [3, 4, 4]
-//}, {
-//  name: 'Gigi',
-//  data: [2, -1, -2]
-//}]
-
-//this.httpService.GetDataForAreaChart()
-//  .subscribe((data: any) => {
-//    this.chartOptions = data,
-//      //this.logger.debug(this.chartOptions);
-//      error => console.error(error)
-//  });

@@ -6,6 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebApplication5.DAL;
+using Hangfire.SqlServer;
+using Hangfire;
+using GetXml.Jobs;
+using System;
+using GetXml.Models;
+using GetXml;
 
 namespace PharmTerminal
 {
@@ -18,10 +24,28 @@ namespace PharmTerminal
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHangfire(configuration => configuration
+           .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+           .UseSimpleAssemblyNameTypeSerializer()
+           .UseRecommendedSerializerSettings()
+           .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+           {
+               CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+               SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+               QueuePollInterval = TimeSpan.Zero,
+               UseRecommendedIsolationLevel = true,
+               DisableGlobalLocks = true
+           }));
+            services.AddTransient<IMyJob, MyJob>();
+            services.AddTransient<IHLogic, HLogic>();
+            services.AddTransient<IDeviceRepository, DeviceRepository>();
+            services.AddHangfireServer();
             services.AddControllersWithViews();
+            services.AddScoped<IHangfireJobScheduler, HangfireJobScheduler>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -31,8 +55,14 @@ namespace PharmTerminal
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IServiceProvider serviceProvider,
+            IMyJob myJob,
+            IRecurringJobManager recurringJobManager,
+            IHangfireJobScheduler hangfireJobScheduler)
+            {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,6 +102,19 @@ namespace PharmTerminal
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
+            });
+
+            app.UseHangfireServer(new BackgroundJobServerOptions
+            {
+                WorkerCount = 2,
+                SchedulePollingInterval = TimeSpan.FromMinutes(2)
+            });
+
+            BackgroundJob.Enqueue(() => serviceProvider.GetService<IHangfireJobScheduler>().ScheduleRecurringJobs());
         }
     }
 }

@@ -124,25 +124,20 @@ namespace WebApplication5.Controllers
         }
 
         public async Task<Hashtable> GetDataForAreaChart()
-        {
+        {           
+
             ArrayList nameFrontsList = new ArrayList();
             NameFront nameFront = new NameFront();
-            NameFront nameFront1 = new NameFront();
+            NameFront nameFront1 = new NameFront();           
             
-            
-
-            
-            
-
-
-
             var arraySold = await Task.Run(() => _dbRepository.GetThreeMonthSoldOrd());
             var arrayCanceled = await Task.Run(() => _dbRepository.GetThreeMonthCanceled());
             Hashtable sendHashList = new Hashtable();
+
             nameFront.Name = "Выкупленные заказы";
             nameFront.Data = arraySold;
             nameFront1.Name = "Отмененные заказы";
-            nameFront1.Data = arrayCanceled;                
+            nameFront1.Data  = arrayCanceled;              
             nameFrontsList.Add(nameFront);
             nameFrontsList.Add(nameFront1);
 

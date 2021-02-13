@@ -65,7 +65,40 @@ export class AreaComponent implements OnInit {
       },
       "chart": {
         "type": "area"
-      }
+      },
+      "series": [
+        {
+          "name": "",
+          "data": []
+        }, {
+          "name": "",
+          "data": []
+        },
+        {
+          "name": "",
+          "data": []
+        },
+        {
+          "name": "",
+          "data": []
+        },
+        {
+          "name": "",
+          "data": []
+        },
+        {
+          "name": "",
+          "data": []
+        },
+        {
+          "name": "",
+          "data": []
+        },
+        {
+          "name": "",
+          "data": []
+        }
+        ]
     }
     
     HC_exporting(Highcharts);
